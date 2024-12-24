@@ -24,7 +24,7 @@ async function run() {
     const restaurantCollection = client.db("restaurantDB").collection('restaurant');
     const purchasesCollection = client.db("restaurantDB").collection('purchases');
 
-    app.post('/addfood', async(req, res) => {
+    /* app.post('/addfood', async(req, res) => {
         const addData = req.body;
         const result = await restaurantCollection.insertOne(addData);
         res.send(addData);
@@ -41,7 +41,7 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result);
     })
-
+ */
     app.get('/food/:id', async(req, res) => {
         try{
             const id = req.params.id;
