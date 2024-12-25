@@ -24,7 +24,7 @@ async function run() {
     const restaurantCollection = client.db("restaurantDB").collection('restaurant');
     const purchasesCollection = client.db("restaurantDB").collection('purchases');
 
-    /* app.post('/addfood', async(req, res) => {
+    app.post('/addfood', async(req, res) => {
         const addData = req.body;
         const result = await restaurantCollection.insertOne(addData);
         res.send(addData);
@@ -41,7 +41,7 @@ async function run() {
         const result = await cursor.toArray();
         res.send(result);
     })
- */
+
     app.get('/food/:id', async(req, res) => {
         try{
             const id = req.params.id;
@@ -53,6 +53,37 @@ async function run() {
             res.send({err: true, message: err.message});
         }
     })
+
+    //My Posted Foods or Admin Posted Food for specific email
+    app.get('/allFoods/:email', async(req, res) => {
+      const email = req.params.email;
+      const query = {email: email};
+      const result = await restaurantCollection.find(query).toArray();
+      res.send(result);
+    })
+
+    //update Posted Food
+    app.patch('/postUpdate/:id', async(req, res) => {
+      const id = req.params.id;
+      const updateData = req.body;
+      const { fName, photo, category, quantity, price, origin, description } = updateData;
+      const query = {_id: new ObjectId(id)}
+      const update = {
+        $set: {
+          fName: fName,
+          photo: photo,
+          category: category,
+          quantity: quantity,
+          price: price,
+          origin: origin,
+          description: description
+        }
+      }
+      const result = await restaurantCollection.updateOne(query,update);
+      res.send(result);
+    })
+
+    
 
     //for purchases producets
     app.post('/add-purchases', async(req, res) => {
