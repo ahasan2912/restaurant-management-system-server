@@ -83,7 +83,13 @@ async function run() {
       res.send(result);
     })
 
-    
+    //Added Food Delete
+    app.delete('/postedDelete/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await restaurantCollection.deleteOne(query);
+      res.send(result);
+    })
 
     //for purchases producets
     app.post('/add-purchases', async(req, res) => {
