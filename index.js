@@ -98,6 +98,22 @@ async function run() {
         res.send(result);
     })
 
+    //for orderlist
+    app.get('/myFoodOrder/:email',async (req, res) => {
+      const email = req.params.email;
+      const query = {userEmail: email};
+      const result = await purchasesCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    //delete order for specific item
+    app.delete('/deleleList/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await purchasesCollection.deleteOne(query);
+      res.send(result);
+    })
+
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
