@@ -31,7 +31,7 @@ async function run() {
     })
 
     app.get('/allfood', async(req, res) => {
-        const cursor = restaurantCollection.find().limit(6);
+        const cursor = restaurantCollection.find().sort({"order_coutn":-1}).limit(6);
         const result = await cursor.toArray();
         res.send(result);
     })
@@ -104,6 +104,13 @@ async function run() {
     app.post('/add-purchases', async(req, res) => {
         const addPurchase = req.body;
         const result = await purchasesCollection.insertOne(addPurchase);
+
+        //increase order count
+        const filter = {_id: new ObjectId(addPurchase.foodId)};
+        const update = {
+          $inc: {order_coutn: 1},
+        }
+        const updatePurcjases = await restaurantCollection.updateOne(filter, update);
         res.send(result);
     })
 
@@ -138,3 +145,4 @@ app.get('/', async(req, res) => {
 app.listen(port, ()=> {
     console.log(`Server Running on Port ${port}`);
 })
+
