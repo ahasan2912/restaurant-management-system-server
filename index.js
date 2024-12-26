@@ -37,7 +37,16 @@ async function run() {
     })
 
     app.get('/allfoods', async(req, res) => {
-        const cursor = restaurantCollection.find();
+        const search = req.query.search;
+        let options = {};
+        let query ={
+          fName:
+          {
+            $regex: search,
+            $options: 'i',
+          },
+        };
+        const cursor = restaurantCollection.find(query, options);
         const result = await cursor.toArray();
         res.send(result);
     })
