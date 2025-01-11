@@ -42,4 +42,4 @@ The purpose of the "Pastaria Hotel and Restaurant" Management Website is to enha
 #
 
 # Deploying with Firebase
-# [Live-site: ](https://restaurant-management-68f5d.firebaseapp.com/)
+# [Live-site: ](https://restaurant-management-68f5d.web.app/)
